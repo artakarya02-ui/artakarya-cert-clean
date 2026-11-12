@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #050B2E;
+    color: #F8FAFC;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+}
+
+.font-heading {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+.font-stat {
+  font-family: 'Space Grotesk', monospace, sans-serif;
+}
+
+.font-body {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: rgba(16, 27, 85, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 229, 255, 0.15);
+}
+
+.glass-panel-glow {
+  background: rgba(16, 27, 85, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  box-shadow: 0 0 25px rgba(8, 123, 255, 0.12);
+}
+
+.glass-panel-purple {
+  background: rgba(121, 40, 202, 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(232, 62, 255, 0.2);
+}
+
+/* Cosmic Neon Gradients */
+.bg-gradient-cosmic {
+  background: linear-gradient(135deg, #087BFF 0%, #7928CA 50%, #E83EFF 100%);
+}
+
+.bg-gradient-cyber {
+  background: linear-gradient(135deg, #00E5FF 0%, #087BFF 50%, #7928CA 100%);
+}
+
+.text-gradient-cosmic {
+  background: linear-gradient(135deg, #00E5FF 0%, #087BFF 40%, #E83EFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-aurora {
+  background: linear-gradient(135deg, #FFC857 0%, #00E5FF 60%, #E83EFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Futuristic Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #050B2E;
+}
+::-webkit-scrollbar-thumb {
+  background: #101B55;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 229, 255, 0.2);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #087BFF;
+}
+
+/* Pulsing Mane Particle Animations */
+@keyframes cosmic-pulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+.animate-cosmic-pulse {
+  animation: cosmic-pulse 4s ease-in-out infinite;
+}
+
+/* Print styling for certificates: clean, high contrast, no dark galaxy */
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #101B55 !important;
+  }
+  .no-print, header, footer, nav, button, .print-hide {
+    display: none !important;
+  }
+  #certificate-print-area {
+    display: block !important;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    box-shadow: none !important;
+    border: none !important;
+    background: #FFFFFF !important;
+    color: #050B2E !important;
+  }
+  @page {
+    size: landscape;
+    margin: 0;
+  }
+}

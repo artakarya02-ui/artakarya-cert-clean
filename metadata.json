@@ -1,0 +1,8 @@
+{
+  "name": "ARTAKARYA Certificate System",
+  "description": "Digital Certification & Verification Platform oleh ARTAKARYA Creative Intelligence Lab untuk mengelola, menerbitkan, dan memverifikasi sertifikat peserta.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
