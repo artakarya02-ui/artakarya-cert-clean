@@ -723,7 +723,7 @@ export const DeveloperCenter: React.FC = () => {
                 <div className="bg-[#020617] p-3 rounded-xl border border-slate-800 font-mono text-[11px] text-slate-300 space-y-1 relative group">
                   <button
                     onClick={() => {
-                      const envText = `DB_HOST=localhost\nDB_USER=uXXXX_artakarya\nDB_PASSWORD=GANTI_DENGAN_PASSWORD_DATABASE\nDB_NAME=uXXXX_artakarya_db\nPORT=3000\nNODE_ENV=production\nVITE_VERIFY_DOMAIN=https://sertifikat.artakarya.id`;
+                      const envText = `PORT=3000\nNODE_ENV=production\nVITE_VERIFY_DOMAIN=https://artakaryacertificates.site\nVITE_SUPABASE_URL=https://zpipiupnjusqhxihdbl.supabase.co\nVITE_SUPABASE_ANON_KEY=sb_publishable_io2Q4YyD3S6FH_5mI37_Rw_oSzou9Yq\nADMIN_SESSION_SECRET=artakarya_secret_session_key_production_2026`;
                       copyToClipboard(envText, 'envsample');
                     }}
                     className="absolute top-2 right-2 p-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] flex items-center gap-1"
@@ -731,14 +731,13 @@ export const DeveloperCenter: React.FC = () => {
                     {copiedKey === 'envsample' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
                     <span>Salin</span>
                   </button>
-                  <p className="text-slate-500"># Hostinger Production .env</p>
-                  <p>DB_HOST=localhost</p>
-                  <p>DB_USER=uXXXX_artakarya</p>
-                  <p>DB_PASSWORD=********</p>
-                  <p>DB_NAME=uXXXX_artakarya_db</p>
+                  <p className="text-slate-500"># Hostinger Production .env (Vite + Supabase)</p>
                   <p>PORT=3000</p>
                   <p>NODE_ENV=production</p>
-                  <p>VITE_VERIFY_DOMAIN=https://sertifikat.artakarya.id</p>
+                  <p>VITE_VERIFY_DOMAIN=https://artakaryacertificates.site</p>
+                  <p>VITE_SUPABASE_URL=https://zpipiupnjusqhxihdbl.supabase.co</p>
+                  <p>VITE_SUPABASE_ANON_KEY=sb_publishable_io2Q4YyD3S6FH_5mI37_Rw_oSzou9Yq</p>
+                  <p>ADMIN_SESSION_SECRET=artakarya_secret_session_key_production_2026</p>
                 </div>
               </div>
             </div>

@@ -16,8 +16,13 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { CertificateItem, ParticipantItem } from '../types';
 
-export const SUPABASE_URL = 'https://zpipiupnjusqhxihdbl.supabase.co';
-export const SUPABASE_ANON_KEY = 'sb_publishable_io2Q4YyD3S6FH_5mI37_Rw_oSzou9Yq';
+export const SUPABASE_URL: string =
+  (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_SUPABASE_URL) ||
+  'https://zpipiupnjusqhxihdbl.supabase.co';
+
+export const SUPABASE_ANON_KEY: string =
+  (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_SUPABASE_ANON_KEY) ||
+  'sb_publishable_io2Q4YyD3S6FH_5mI37_Rw_oSzou9Yq';
 
 export interface SupabaseCertificateRow {
   id: string;
