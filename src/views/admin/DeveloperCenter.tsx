@@ -671,7 +671,7 @@ export const DeveloperCenter: React.FC = () => {
                   Siap Deploy (Build Selesai)
                 </span>
               </div>
-              <p className="text-[10px] text-slate-400 font-stat">Bundle: dist/server.js</p>
+              <p className="text-[10px] text-slate-400 font-stat">Output: dist/index.html</p>
             </div>
 
             <div className="p-4 rounded-2xl bg-[#050B2E]/90 border border-indigo-900/40 space-y-1">
@@ -775,7 +775,7 @@ export const DeveloperCenter: React.FC = () => {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-400">Application Startup File:</span>
-                    <span className="text-amber-300 font-bold">dist/server.js</span>
+                    <span className="text-amber-300 font-bold">npm start</span>
                   </div>
                 </div>
 
@@ -784,7 +784,7 @@ export const DeveloperCenter: React.FC = () => {
                   <p>Jalankan perintah instalasi dependency di terminal SSH atau tombol &quot;NPM Install&quot; di hPanel:</p>
                 </div>
                 <div className="bg-[#020617] p-2.5 rounded-lg border border-slate-800 font-mono text-[11px] text-cyan-300">
-                  npm install --omit=dev && npm run build
+                  npm install && npm run build
                 </div>
               </div>
             </div>
