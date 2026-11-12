@@ -473,6 +473,64 @@ class SupabaseService {
   }
 
   /**
+   * Delete single certificate from Supabase by certificate_number or id
+   */
+  public async deleteCertificate(certNumberOrId: string): Promise<{ success: boolean; error?: string }> {
+    const client = this.getClient();
+    if (!client) return { success: false, error: 'Supabase client unavailable' };
+
+    const target = certNumberOrId.trim();
+    try {
+      const { error } = await client
+        .from('certificates')
+        .delete()
+        .or(`certificate_number.eq.${target},id.eq.${target}`);
+
+      if (error) {
+        console.warn('[Supabase] deleteCertificate error:', error.message);
+        return { success: false, error: error.message };
+      }
+
+      this.connectionStatus.isConnected = true;
+      this.connectionStatus.tableExists = true;
+      this.notifyStatus();
+      return { success: true };
+    } catch (e: any) {
+      console.warn('[Supabase] deleteCertificate exception:', e?.message || e);
+      return { success: false, error: e?.message || 'Network exception' };
+    }
+  }
+
+  /**
+   * Delete batch certificates from Supabase by list of certificate numbers
+   */
+  public async batchDeleteCertificates(certNumbers: string[]): Promise<{ count: number; error?: string }> {
+    if (!certNumbers.length) return { count: 0 };
+    const client = this.getClient();
+    if (!client) return { count: 0, error: 'Supabase client unavailable' };
+
+    try {
+      const { error } = await client
+        .from('certificates')
+        .delete()
+        .in('certificate_number', certNumbers);
+
+      if (error) {
+        console.warn('[Supabase] batchDelete error:', error.message);
+        return { count: 0, error: error.message };
+      }
+
+      this.connectionStatus.isConnected = true;
+      this.connectionStatus.tableExists = true;
+      this.notifyStatus();
+      return { count: certNumbers.length };
+    } catch (e: any) {
+      console.warn('[Supabase] batchDelete exception:', e?.message || e);
+      return { count: 0, error: e?.message || 'Network exception' };
+    }
+  }
+
+  /**
    * SQL Schema snippet for user copy-paste into Supabase SQL Editor if needed
    */
   public getSqlMigrationScript(): string {

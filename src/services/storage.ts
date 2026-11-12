@@ -664,6 +664,82 @@ class StorageManager {
     }
   }
 
+  public deleteCertificate(idOrCertNumber: string): boolean {
+    const certs = this.getCertificates();
+    const target = certs.find((c) => c.id === idOrCertNumber || c.certificateNumber === idOrCertNumber);
+    if (!target) return false;
+
+    // Filter out target certificate
+    const updated = certs.filter((c) => c.id !== target.id && c.certificateNumber !== target.certificateNumber);
+    localStorage.setItem(STORAGE_KEYS.CERTIFICATES, JSON.stringify(updated));
+
+    // Update associated participant certificateIssued status
+    if (target.participantId) {
+      const participants = this.getParticipants();
+      const pIdx = participants.findIndex((p) => p.id === target.participantId);
+      if (pIdx !== -1) {
+        participants[pIdx].certificateIssued = false;
+        participants[pIdx].certificateId = undefined;
+        participants[pIdx].certificateNumber = undefined;
+        localStorage.setItem(STORAGE_KEYS.PARTICIPANTS, JSON.stringify(participants));
+      }
+    }
+
+    // Sync deletion to Supabase
+    supabaseService.deleteCertificate(target.certificateNumber).catch((e) => {
+      console.warn('[Supabase] Failed to delete certificate online:', e);
+    });
+
+    if (target.eventId) {
+      this.updateEventCounts(target.eventId);
+    }
+
+    this.notify();
+    return true;
+  }
+
+  public batchDeleteCertificates(certNumbers: string[]): number {
+    if (!certNumbers.length) return 0;
+    const certs = this.getCertificates();
+    const setTarget = new Set(certNumbers.map((n) => n.toUpperCase()));
+
+    const remaining = certs.filter((c) => !setTarget.has(c.certificateNumber.toUpperCase()));
+    const deletedCount = certs.length - remaining.length;
+    localStorage.setItem(STORAGE_KEYS.CERTIFICATES, JSON.stringify(remaining));
+
+    // Reset participant flags
+    const participants = this.getParticipants();
+    let pChanged = false;
+    participants.forEach((p) => {
+      if (p.certificateNumber && setTarget.has(p.certificateNumber.toUpperCase())) {
+        p.certificateIssued = false;
+        p.certificateId = undefined;
+        p.certificateNumber = undefined;
+        pChanged = true;
+      }
+    });
+    if (pChanged) {
+      localStorage.setItem(STORAGE_KEYS.PARTICIPANTS, JSON.stringify(participants));
+    }
+
+    // Sync batch deletion to Supabase
+    supabaseService.batchDeleteCertificates(certNumbers).catch((e) => {
+      console.warn('[Supabase] Failed to batch delete certificates online:', e);
+    });
+
+    this.notify();
+    return deletedCount;
+  }
+
+  public deleteDemoCertificates(): number {
+    const certs = this.getCertificates();
+    const demoCerts = certs.filter((c) => c.isDemo || c.certificateNumber.startsWith('AK-DEMO') || c.id.startsWith('cert-demo'));
+    if (!demoCerts.length) return 0;
+
+    const demoNumbers = demoCerts.map((c) => c.certificateNumber);
+    return this.batchDeleteCertificates(demoNumbers);
+  }
+
   // TEMPLATES
   public getTemplates(): CertificateTemplate[] {
     // Only return admin-uploaded templates from persistent database (IndexedDB / backend sync)
